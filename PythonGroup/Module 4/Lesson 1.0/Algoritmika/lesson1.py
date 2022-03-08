@@ -26,3 +26,5 @@ while gameIsOn:
         if eachEvent.type == KEYDOWN:  
             if eachEvent.key == K_SPACE:
                 gameIsOn = False
+
+print("Game Over!")
