@@ -1,30 +1,30 @@
-class Player():
+class Player():  
+    def __init__(self):
+        self.weapon = Weapon("pistol")  
+
     weapon = ""
+    level = 0 
+    nick = ""
+
+
+class Weapon():  
+    def __init__(self, name):
+        self.hold = name  
+
+    hold = ""
+    num =0  
     bullets = 0
     bulletType = ""
 
-def Amory(self):
-        weaon.hold = Shotgun
-        bullets.num = 999
-        bulletType = HeavyBullet
-        Amory = Something
-        print(Something)
-
 
 class Database():
-    Player = ""
-    PlayerHash = 0
-    Tier = 0
-    def Secretinfo(self):
-        player.nick = "Jovan"
-        PlayerHash.tag = 1663
-        Secretinfo = "Shh!"
+    playerList = []
 
-    def Level(self):
-        Tier.lvl = 37   
-        Tier.total = 100   
 
-    If Player Tier.lvl = 30 <
-        print ("Noob")
-    else:
-        print("PRO")
+
+
+
+player = Player()
+player.nick = "Jovan"
+player.weapon = Weapon("Shotgun") 
+
