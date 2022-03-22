@@ -89,7 +89,7 @@ while running:
     all_sprites.update()
 
 
-    
+    print(player.rect.y)
 
 
     # Рендеринг
