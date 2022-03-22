@@ -87,8 +87,11 @@ while running:
         if event.type == pygame.QUIT:
             running = False
     all_sprites.update()
-    if player.rect.y < 200:
-        DrawWin()
+
+
+    
+
+
     # Рендеринг
     screen.fill(BLACK)
     screen.blit(background, background_rect)
