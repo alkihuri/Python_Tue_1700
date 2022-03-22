@@ -27,4 +27,5 @@ class Database():
 player = Player()
 player.nick = "Jovan"
 player.weapon = Weapon("Shotgun") 
+player.level = (30)
 

@@ -8,7 +8,7 @@ img_dir = path.join(path.dirname(__file__), 'img')
 
 WIDTH = 480
 HEIGHT = 600
-FPS = 15
+FPS = 60
 
 # Задаем цвета
 WHITE = (255, 255, 255)
