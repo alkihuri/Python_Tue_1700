@@ -21,6 +21,9 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Labyrinth / Demo ")
 clock = pygame.time.Clock()
 
+
+
+
 class Player(pygame.sprite.Sprite):
     speedx = 0
     speedy = 0
@@ -78,8 +81,12 @@ background = pygame.image.load(path.join(img_dir, "labyrinth_field.png")).conver
 background_rect = background.get_rect()
 player_img = pygame.image.load(path.join(img_dir, "player.png")).convert() 
 
+
 all_sprites = pygame.sprite.Group() 
 player = Player()
+
+
+
 all_sprites.add(player) 
 
 # Цикл игры
@@ -101,7 +108,9 @@ while running:
         
     if player.rect.y < 166:
         win = True 
+
     print(player.rect.x, player.rect.y)
+
 
 
 
