@@ -25,4 +25,4 @@ while gameIsOn:
     for eachEvent in event.get(): 
         if eachEvent.type == KEYDOWN:  
             if eachEvent.key == K_SPACE:
-                gameIsOn = False 
+                gameIsOn = False
