@@ -21,10 +21,9 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Labyrinth / Demo ")
 clock = pygame.time.Clock()
 
-
-class Wall (pygame.sprite.Sprite):
-    def _init__(self, x, y):
-        pygame.sprite.Sprite __init__(self)
+class Wall(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
         self.image = pygame.transform.scale(wall_image,(50, 50))
         self.rect = self.image.get_rect()
         self.rect.x = x
@@ -69,37 +68,33 @@ class Player(pygame.sprite.Sprite):
 
 
 
-def DrawWin():   
-    screen = pygame.display.set_mode((800  , HEIGHT))
-    pygame.display.set_caption("Win / Demo ")
-    background = pygame.image.load(path.join(img_dir, "win.jpg")).convert()
-    background_rect = background.get_rect()
-    screen.blit(background, background_rect) 
-    pygame.display.flip() 
-
-def DrawGame(): 
+def DrawWin(): 
+    background = pygame.image.load(path.join(img_dir, "win.jpg")).convert() 
+    screen.clear()
     screen.fill(BLACK)
     screen.blit(background, background_rect)
-    all_sprites.draw(screen) 
-    pygame.display.flip()
+    all_sprites.draw(screen)
+    print("Win!")
 
 
 background = pygame.image.load(path.join(img_dir, "labyrinth_field.png")).convert()
 background_rect = background.get_rect()
 player_img = pygame.image.load(path.join(img_dir, "player.png")).convert() 
-wall_image = pygame.image.load(path.join(img_dir, "wall.jpg")).convert()
-
 
 all_sprites = pygame.sprite.Group() 
 player = Player()
 
+walls = []
+wall = wall(200, 200)
+walls.append(wall)
 
+for eachWall in walls:
+    all_sprites.add (eachWall)
 
 all_sprites.add(player) 
 
 # Цикл игры
 running = True
-win = False
 while running:
     # Держим цикл на правильной скорости
     clock.tick(FPS)
@@ -108,18 +103,26 @@ while running:
         # проверка для закрытия окна
         if event.type == pygame.QUIT:
             running = False
-    all_sprites.update()   
-    if win:
-        DrawWin()
-    else:
-        DrawGame() 
-        
-    if player.rect.y < 166:
-        win = True 
-
-    print(player.rect.x, player.rect.y)
+    all_sprites.update()
 
 
+    print(player.rect.y)
+    
+    for eachWall in walls:
+        if(sprite.collide_rect(player,eachWall)):
+            running = False
+
+    # Рендеринг
+    screen.fill(BLACK)
+    screen.blit(background, background_rect)
+    all_sprites.draw(screen)
+    # После отрисовки всего, переворачиваем экран (просто нужно)
+    pygame.display.flip()
 
 
-  
+        if win:
+            print ("Game_Win")
+        else:
+            print ("Game_Over")
+        if Game_Win():
+            running = False
