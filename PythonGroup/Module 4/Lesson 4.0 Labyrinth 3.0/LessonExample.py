@@ -75,17 +75,30 @@ def DrawGame():
     screen.blit(background, background_rect)
     all_sprites.draw(screen) 
     pygame.display.flip()
-
+    
 
 background = pygame.image.load(path.join(img_dir, "labyrinth_field.png")).convert()
 background_rect = background.get_rect()
 player_img = pygame.image.load(path.join(img_dir, "player.png")).convert() 
+wall_image = pygame.image.load(path.join(img_dir,  "wall.png")).convert()
 
+class Wall(pygame.sprite.Sprite)
+    def __init__(self,x,y):
+        pygame.sprite.Sprite_init_(self)
+        self.image = pygame.transform.scale(wall_image ,  (50, 50))
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
 
 all_sprites = pygame.sprite.Group() 
 player = Player()
 
+walls = []
+wall = (200,200)
+walls.append(wall)
 
+for eachWall in Walls:
+    all_sprites.add(eachWall)
 
 all_sprites.add(player) 
 
@@ -110,6 +123,10 @@ while running:
         win = True 
 
     print(player.rect.x, player.rect.y)
+
+    for eachWall in walls:
+        if (sprite.collide_rect(player, eachWall)):
+            running = F
 
 
 
