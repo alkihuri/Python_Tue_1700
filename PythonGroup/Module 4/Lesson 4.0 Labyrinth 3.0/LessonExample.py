@@ -21,14 +21,12 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Labyrinth / Demo ")
 clock = pygame.time.Clock()
 
-
-class Wall():
-    
-     def __init__(self, x, y):
+class Wall (pygame.sprite.Sprite):
+    def __init__(self, x ,y):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.transform.scale(wall_img, (50, 50))
-        self.rect = self.image.get_rect()
-        self.rect.x = x
+        self.image = pygame.transform.scale(wall_image, (50, 50)) 
+        self.rect = self.image.get_rect() 
+        self.rect.x = x 
         self.rect.y = y
 
 
@@ -69,6 +67,7 @@ class Player(pygame.sprite.Sprite):
             self.rect.left = 0 
 
 
+
 def DrawWin():   
     screen = pygame.display.set_mode((800  , HEIGHT))
     pygame.display.set_caption("Win / Demo ")
@@ -87,30 +86,30 @@ def DrawGame():
 background = pygame.image.load(path.join(img_dir, "labyrinth_field.png")).convert()
 background_rect = background.get_rect()
 player_img = pygame.image.load(path.join(img_dir, "player.png")).convert() 
-wall_img = pygame.image.load(path.join(img_dir, "wall.png")).convert()
-
+wall_image = pygame.image.load(path.join(img_dir, "wall.png")).convert() 
 
 
 all_sprites = pygame.sprite.Group() 
 player = Player()
 
 walls = []
-wall = Wall(200, 200)
+wall = Wall(200,200)
+wall2 = Wall(100,200)
 walls.append(wall)
+walls.append(wall2)
 
 for eachWall in walls:
     all_sprites.add(eachWall)
 
 all_sprites.add(player) 
 
-
 # Цикл игры
 running = True
 win = False
 while running:
-    
+    # Держим цикл на правильной скорости
     clock.tick(FPS)
-    
+    # Ввод процесса (события)
     for event in pygame.event.get():
         # проверка для закрытия окна
         if event.type == pygame.QUIT:
@@ -127,10 +126,8 @@ while running:
     print(player.rect.x, player.rect.y)
 
     for eachWall in walls:
-        if sprite.collide_rect(player, eachWall):
+        if(sprite.collide_rect(player,eachWall)):
             running = False
-
-
 
 
   
