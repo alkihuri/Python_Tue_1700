@@ -59,8 +59,7 @@ all_sprites.add(player)
 running = True
 while running:
     clock.tick(FPS)
-    all_sprites.update()
-    screen.fill(BLACK)
+    all_sprites.update() 
     screen.blit(background, background_rect)
     all_sprites.draw(screen)
     pygame.display.flip()
