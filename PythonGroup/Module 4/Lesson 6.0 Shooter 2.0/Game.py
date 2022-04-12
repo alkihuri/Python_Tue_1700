@@ -53,6 +53,7 @@ class Player(pygame.sprite.Sprite):
 
 class Mob(pygame.sprite.Sprite):
     def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
         self.image = pygame.transform.scale(npc_img, (50, 50))
         self.image.set_colorkey(WHITE)
         self.rect = self.image.get_rect()
