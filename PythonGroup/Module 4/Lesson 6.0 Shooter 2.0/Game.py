@@ -51,15 +51,43 @@ class Player(pygame.sprite.Sprite):
             self.speedx = 8   
         self.rect.x += self.speedx
 
+class Mob(pygame.sprite.Sprite):
+    def __init__(self):
+        self.image = pygame.transform.scale(npc_img, (50, 50))
+        self.image.set_colorkey(WHITE)
+        self.rect = self.image.get_rect()
+        self.rect.x = random.randrange(WIDTH - self.rect.width)
+        self.rect.y = random.randrange(-300, -30)
+        self.speedy = random.randrange(1, 8)
+        self.speedx = random.randrange(-3, 3)
+    
+    def update(self):
+        self.rect.x = self.speedx
+        self.rect.y = self.speedy
+        if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
+            self.rect.x = random.randrange(WIDTH - self.rect.width)
+            self.rect.y = random.randrange(-100, -40)
+            self.speedy = random.randrange(1, 8)
+    
+
+all_sprites = pygame.sprite.Group()
+mobs = pygame.sprite.Group()
+bullets = pygame.sprite.Group()
 
 player = Player()
-all_sprites = sprite.Group()
+
 all_sprites.add(player)
+
+for i in range(3):
+    m = Mob()
+    all_sprites.add(m)
+    mobs.add(m)
  
 running = True
 while running:
     clock.tick(FPS)
-    all_sprites.update() 
+    all_sprites.update()
+    screen.fill(BLACK)
     screen.blit(background, background_rect)
     all_sprites.draw(screen)
     pygame.display.flip()
@@ -69,16 +97,3 @@ while running:
         if eachEvent.type == QUIT:
             running = False
 
- 
-
-
- 
-
-
-
-
-
-
- 
-
- 
