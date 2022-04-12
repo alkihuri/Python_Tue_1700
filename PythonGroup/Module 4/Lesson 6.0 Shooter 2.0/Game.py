@@ -58,9 +58,14 @@ all_sprites.add(player)
  
 running = True
 while running:
+    clock.tick(FPS)
     all_sprites.update()
+    screen.fill(BLACK)
     screen.blit(background, background_rect)
     all_sprites.draw(screen)
+    pygame.display.flip()
+
+
     for eachEvent in event.get():
         if eachEvent.type == QUIT:
             running = False
