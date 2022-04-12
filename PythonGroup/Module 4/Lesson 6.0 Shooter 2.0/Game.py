@@ -5,6 +5,7 @@ print("Robolab Python Pro Course / Shooter template project =) ")
 
 
 # modules import 
+from pygame import *
 import pygame
 import random
 from os import path
@@ -49,26 +50,20 @@ class Player(pygame.sprite.Sprite):
         if keysate[pygame.K_RIGHT]:
             self.speedx = 8   
         self.rect.x += self.speedx
-    #shoot mechanic function
 
 
-#mob generation system ~ mob (NPC) class
-
-#mob generation system ~ generation
-
-#Game lifecycle
-    #fps
-
-    #event handler
-
-        #event to close window
-
-        #shoot [if event.type == pygame.KEYDOWN] [if event.key == pygame.K_SPACE]
-
-    #update of render
-
-    #screen flip
-
+player = Player()
+all_sprites = sprite.Group()
+all_sprites.add(player)
+ 
+running = True
+while running:
+    all_sprites.update()
+    screen.blit(background, background_rect)
+    all_sprites.draw(screen)
+    for eachEvent in event.get():
+        if eachEvent.type == QUIT:
+            running = False
 
  
 

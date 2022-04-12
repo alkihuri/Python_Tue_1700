@@ -25,6 +25,7 @@ class Player(pygame.sprite.Sprite):
 
         self.rect.x += self.speedx 
 
+all_sprites = sprite.group
 player = Player()
  
 
