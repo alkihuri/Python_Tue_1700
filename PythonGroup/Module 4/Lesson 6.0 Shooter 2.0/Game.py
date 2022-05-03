@@ -53,16 +53,38 @@ class Player(pygame.sprite.Sprite):
 
 
 #mob generation system ~ mob (NPC) class
+    class Mob(pygame.sprite.Sprite):
+        def _init_(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.transform.scale(npc_img , (50, 50))
+        self.image.set_colorkey(WHITE)
+        self.rect = self.image.get_rect()
+        self.rect.x = random.randrange(WIDTH - self.rect.width)
+        self.rect.y = random.randrange(-300, -30)
+        self.speedy = random.randrange(1, 8)
+        self.speedx = random.randrange(-3, 3)
 
+    def update(self):
+        self.rect.x += self.speedx
+        self.rect.y += self.speedy
+        if select.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
+            self.rect.x = random.randrange(WIDTH - self.rect.width)
+            self.rect.y = random.randrange(-100, -40)
+            self.speedy = random.randrange(1, 8)
 #mob generation system ~ generation
 
 #Game lifecycle
+running = True
+While running:
     #fps
-
+    clock.tick(FPS)
     #event handler
-
+    for event in pygame.event.get():
         #event to close window
-
+        if event.type == pygame.QUIT
+        running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE
         #shoot [if event.type == pygame.KEYDOWN] [if event.key == pygame.K_SPACE]
 
     #update of render
@@ -78,8 +100,15 @@ class Player(pygame.sprite.Sprite):
 
 
 
+all_sprites = pygame.sprite.Group()
+mobs = pygame.sprite.Group()
+bullets = pygame.sprite.Group()
+player = Player()
+all_sprites.add(player)
 
-
- 
+ for i in range(2):\
+     m = Mob()
+     all_sprites.add(m)
+     mobs.add(m)
 
  
