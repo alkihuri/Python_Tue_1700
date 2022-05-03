@@ -5,7 +5,6 @@ print("Robolab Python Pro Course / Shooter template project =) ")
 
 
 # modules import 
-from pygame import *
 import pygame
 import random
 from os import path
@@ -20,15 +19,15 @@ pygame.init()
 pygame.mixer.init()
 window_size = (WIDTH,HEIGHT)
 screen = pygame.display.set_mode(window_size)
-pygame.display.set_caption("Shooter 2nd lesson")
+pygame.display.set_caption("Shooter 3rd lesson")
 clock = pygame.time.Clock() 
 # Game sprites 
 img_dir = path.join(path.dirname(__file__),"img")
-background = pygame.load(path.join(img_dir,"field.png")).convert()
+background = pygame.image.load(path.join(img_dir,"field.png")).convert()
 background_rect = background.get_rect() 
-player_img = pygame.load(path.join(img_dir,"field.png")).convert()
-npc_img = pygame.load(path.join(img_dir,"npc.png")).convert()
-bullet_img = pygame.load(path.join(img_dir,"bullet.png")).convert()
+player_img = pygame.image.load(path.join(img_dir,"ship.png")).convert()
+npc_img = pygame.image.load(path.join(img_dir,"npc.png")).convert()
+bullet_img = pygame.image.load(path.join(img_dir,"bullet.png")).convert()
 
 #player class
 class Player(pygame.sprite.Sprite):
@@ -39,7 +38,7 @@ class Player(pygame.sprite.Sprite):
         self.image.set_colorkey(WHITE)
         self.rect = self.image.get_rect()
         self.rect.centerx = WIDTH /2
-        self.rect.bottom = HEIGHT - player_size.x
+        self.rect.bottom = HEIGHT - 50
         self.speedx = 0
 
     def update(self):
@@ -50,7 +49,12 @@ class Player(pygame.sprite.Sprite):
         if keysate[pygame.K_RIGHT]:
             self.speedx = 8   
         self.rect.x += self.speedx
+    #shoot mechanic function
 
+
+#bullet class
+
+#mob generation system ~ mob (NPC) class
 class Mob(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -61,40 +65,51 @@ class Mob(pygame.sprite.Sprite):
         self.rect.y = random.randrange(-300, -30)
         self.speedy = random.randrange(1, 8)
         self.speedx = random.randrange(-3, 3)
-    
+
     def update(self):
-        self.rect.x = self.speedx
-        self.rect.y = self.speedy
+        self.rect.x += self.speedx
+        self.rect.y += self.speedy
         if self.rect.top > HEIGHT + 10 or self.rect.left < -25 or self.rect.right > WIDTH + 20:
             self.rect.x = random.randrange(WIDTH - self.rect.width)
             self.rect.y = random.randrange(-100, -40)
             self.speedy = random.randrange(1, 8)
-    
-
-all_sprites = pygame.sprite.Group()
+#mob generation system ~ generation
+ 
+all_sprites = pygame.sprite.Group()  
 mobs = pygame.sprite.Group()
 bullets = pygame.sprite.Group()
-
-player = Player()
-
+player = Player() 
 all_sprites.add(player)
 
-for i in range(3):
+for i in range(2):
     m = Mob()
     all_sprites.add(m)
     mobs.add(m)
- 
+
+#Game lifecycle
 running = True
 while running:
+    # FPS set up
     clock.tick(FPS)
-    all_sprites.update()
-    screen.fill(BLACK)
-    screen.blit(background, background_rect)
-    all_sprites.draw(screen)
-    pygame.display.flip()
-
-
-    for eachEvent in event.get():
-        if eachEvent.type == QUIT:
+    # event handle system
+    for event in pygame.event.get(): 
+        #event to close window
+        if event.type == pygame.QUIT:
             running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                print("Hello!")
 
+    # sprites update
+    all_sprites.update()   
+    #update of render
+    screen.fill(BLACK)
+    screen.blit(background, background_rect) 
+    all_sprites.draw(screen) 
+    #shoot [if event.type == pygame.KEYDOWN] [if event.key == pygame.K_SPACE]
+
+    #screen flip
+    pygame.display.flip()
+pygame.quit()
+
+ 
