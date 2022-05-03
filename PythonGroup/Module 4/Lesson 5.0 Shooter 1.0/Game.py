@@ -8,22 +8,29 @@ print("Robolab Python Pro Course / Shooter template project =) ")
 
 
 
+#Graphics 
+import pygame
+import random
+from os import path
 
-
-
+WIDTH=480
+HEIGHT=720
+FPS=30
 
 # colors set up
-
-
-
-
-
-
+White = (255,255,255)
+Black = (0,0,0)
+Red = (255,0,0)
+Green = (0,255,0)
+Blue = (0,0,255)
+Yellow = (255,255,0)
 
 
 # Window creating
-
-
+pygame.init()
+pygame.mixer.init()
+screen = pygame.display.set_mode((WIDTH,HEIGHT))
+pygame.display.set_caption("Shooter Example")
 
 
  
