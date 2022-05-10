@@ -17,13 +17,13 @@ img_file_princess = path.dirname(__file__)+ '/princess.png'
 
 pygame.display.set_caption("ARCADE") 
 window = pygame.display.set_mode((800, 600))
+
 #backround settings
 back = pygame.transform.scale(pygame.image.load(img_file_back).convert(),(800,600))
 
 
-
 class Hero(pygame.sprite.Sprite):
-   def __init__(self, filename, x_speed=0, y_speed=0, x=x_start, y=y_start):
+   def __init__(self, filename, x_speed, y_speed, x=x_start, y=y_start):
        pygame.sprite.Sprite.__init__(self)
        
        self.image = pygame.transform.scale(pygame.image.load(filename), (120, 120)).convert_alpha()
@@ -96,7 +96,7 @@ class Wall(pygame.sprite.Sprite):
        self.image = pygame.Surface([width, height])
        self.image.fill(color)
 
-       # create property rect
+       
        self.rect = self.image.get_rect()
        self.rect.x = x
        self.rect.y = y
@@ -135,13 +135,14 @@ w = Wall(-200, 590, 1600, 20)
 barriers.add(w)
 all_sprites.add(w)
 
+player = Hero(img_file_hero, 0, 0, 20, 12)
+
+clock = pygame.time.Clock()
 run = True
-clock = pygame.time.Clock() # create tick for game like FPS or something :) 
-while run: 
-    all_sprites.update()
-    clock.tick(30) # set up FPS
-    pygame.display.update() # we should  update display
-    all_sprites.draw(window) # we shoukd also render each sprite in alssprites list :) 
+while run:
+    clock.tick(30) 
+    pygame.display.update() 
+    all_sprites.draw(window) 
     for event in pygame.event.get(): 
         if event.type == pygame.QUIT: 
             run = False 
