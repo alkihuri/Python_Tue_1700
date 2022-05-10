@@ -1,128 +1,144 @@
-# Подключить нужные модули
-from random import randint 
+from random import randint
+from sre_constants import JUMP 
 import pygame 
 from os import path
+import keyboard
 pygame.init() 
-# во время игры пишем надписи размера 72
- 
 
-# Глобальные переменные (настройки)
+C_GREEN = (32, 128, 32)
 
+x_start, y_start = 20, 10
 
-# цвета: 
+img_file_back =     path.dirname(__file__)+ '/cave.png'
+img_file_hero =     path.dirname(__file__)+ '/m1.png'
+img_file_enemy =    path.dirname(__file__)+ '/enemy.png' 
+img_file_bomb =     path.dirname(__file__)+ '/bomb.png'
+img_file_princess = path.dirname(__file__)+ '/princess.png'
 
+pygame.display.set_caption("ARCADE") 
+window = pygame.display.set_mode((800, 600))
 
-# Классы
-# класс для цели (стоит и ничего не делает)
-
-  # конструктор класса
-   
-      # Вызываем конструктор класса (Sprite):
+class Hero(pygame.sprite.Sprite):
+   def __init__(self, filename, x_speed=0, y_speed=0, x=x_start, y=y_start):
+       pygame.sprite.Sprite.__init__(self)
        
-
-      # каждый спрайт должен хранить свойство image - изображение 
-
-      # каждый спрайт должен хранить свойство rect - прямоугольник, в который он вписан 
-
-#класс для главного героя     
- 
-        # картинка загружается из файла и умещается в прямоугольник нужных размеров:
-         
-                    # используем convert_alpha, нам надо сохранять прозрачность
-
-        # каждый спрайт должен хранить свойство rect - прямоугольник. Это свойство нужно для определения касаний спрайтов. 
-        
-        # ставим персонажа в переданную точку (x, y):
-         
-        # создаем свойства, запоминаем переданные значения:
-         
-        # добавим свойство stands_on - это та платформа, на которой стоит персонаж
-        
-        # если ни на какой не стоит, то значение - False
-    #функция для падения (гравитация)  
-
-
-    #функция для прыжка
-
-    #функция апдейт для данного спрайта. так как спрайт будет премещаться. Самая веселая часть ) 
-     
-
-#класс для стены. Делали точно такой же в проекте Лабиринт :))) 
-    #конструктор
-
-#класс врага 
-    #конструктор 
-
-    # функция апдейт с рандомным перемещением 
-
-
-# Запуск игры 
-
-
-# список всех персонажей игры:
-
-
-# список препятствий:
-
-# список врагов:
-
-# список мин:
-
-
-# создаем персонажа, добавляем его в список всех спрайтов:
-
-# создаем стены, добавляем их:
-
-
-
-
-# создаем врагов, добавляем их:
-
-
-# создаем мины, добавляем их:
-            
-            # в список всех спрайтов бомбы не добавляем, будем рисовать их отдельной командой
-            # так легко сможем подрывать бомбы, а также делаем их неподвижными, update() не вызывается
-
-# создаем финальный спрайт, добавляем его: 
-
-# Основной цикл игры: 
- 
-    # Обработка событий
+       self.image = pygame.transform.scale(pygame.image.load(filename), (120, 120)).convert_alpha()
+                   
       
-        # Перемещение игровых объектов  
-
-        # дальше проверки правил игры
-        # проверяем касание с бомбами: 
-                # если бомба коснулась спрайта, то она убирается из списка бомб, а спрайт - из all_sprites!
-
-        # проверяем касание героя с врагами: 
-           # robin.kill() # метод kill убирает спрайт из всех групп, в которых он числится
-
-        # проверяем границы экрана: 
-             # при выходе влево или вправо переносим изменение в сдвиг экрана 
-            # перемещаем на общий сдвиг все спрайты (и отдельно бомбы, они ж в другом списке): 
-                        # сам robin тоже в этом списке, поэтому его перемещение визуально отменится
-            
-
-        # Отрисовка
-        # рисуем фон со сдвигом
-        
-
-        # нарисуем все спрайты на экранной поверхности до проверки на выигрыш/проигрыш
-        # если в этой итерации цикла игра закончилась, то новый фон отрисуется поверх персонажей
-         
-        # группу бомб рисуем отдельно - так бомба, которая ушла из своей группы, автоматически перестанет быть видимой
+       self.rect = self.image.get_rect()
        
+       self.rect.x = x
+       self.rect.y = y
+       
+       self.x_speed = x_speed
+       self.y_speed = y_speed
+       
+       self.stands_on = False
 
-        # проверка на выигрыш и на проигрыш:
+   def gravity(self):
+       self.y_speed += 0.25
+    
+   def jump(self):
+       if self.stands_on:
+           self.y_speed = 0
+    
+   def update(self):
+       
+       self.rect.x += self.x_speed
+       self.rect.y += self.y_speed
+       
+       platforms_touched = pygame.sprite.spritecollide(self, barriers, False)
+       if self.x_speed > 0:
+           for p in platforms_touched:
+               self.rect.right = min(self.rect.right, p.rect.left)
+       elif self.x_speed < 0: 
+           for p in platforms_touched:
+               self.rect.left = max(self.rect.left, p.rect.right)
         
+       self.gravity()
 
-        # проверка на проигрыш:
-         
-            # пишем текст на экране
-             
+       if self.y_speed > 0: 
+           for p in platforms_touched:
+               self.y_speed = 0
+
+               if p.rect.top < self.rect.bottom:
+                   self.rect.bottom = p.rect.top
+                   self.stands_on = p
+
+       if keyboard.is_pressed('a'):
+           self.rect.x += 0.5
+       elif keyboard.is_pressed('d'):
+           self.rect.x -= 0.5
+        
+       if keyboard.is_pressed('space'):
+           self.jump()
+
+class Enemy(pygame.sprite.Sprite): 
+   def __init__(self, x=20, y=0, filename=img_file_enemy, width=100, height=100):
+       pygame.sprite.Sprite.__init__(self)
+
+       self.image = pygame.transform.scale(pygame.image.load(filename), (width, height)).convert_alpha()
+       self.rect = self.image.get_rect()
+       self.rect.x = x
+       self.rect.y = y
+
+   def update(self):
+       self.rect.x = randint(5, -5)
+       self.rect.y = randint(5, -5)
+
+class Wall(pygame.sprite.Sprite):
+   def __init__(self, x=20, y=0, width=120, height=120, color=C_GREEN):
+       pygame.sprite.Sprite.__init__(self)
+       self.image = pygame.Surface([width, height])
+       self.image.fill(color)
+
+       # create property rect
+       self.rect = self.image.get_rect()
+       self.rect.x = x
+       self.rect.y = y
+       
+class FinalSprite(pygame.sprite.Sprite):
+  
+ def __init__(self, player_image, player_x, player_y, player_speed):
+     
+     pygame.sprite.Sprite.__init__(self)
 
      
+     self.image = pygame.transform.scale(pygame.image.load(player_image), (60, 120))
+     self.speed = player_speed
 
-    # Пауза 
+     
+     self.rect = self.image.get_rect()
+     self.rect.x = player_x
+     self.rect.y = player_y
+
+all_sprites = pygame.sprite.Group()
+
+barriers = pygame.sprite.Group()
+
+enemies = pygame.sprite.Group()
+
+w = Wall(50, 150, 480, 20)
+barriers.add(w)
+all_sprites.add(w)
+w = Wall(700, 50, 50, 360) 
+barriers.add(w)
+all_sprites.add(w)
+w = Wall(350, 380, 640, 20)
+barriers.add(w)
+all_sprites.add(w)
+w = Wall(-200, 590, 1600, 20)
+barriers.add(w)
+all_sprites.add(w)
+
+run = True
+while run:
+    all_sprites.update()
+    for event in pygame.event.get(): 
+        if event.type == pygame.QUIT: 
+            run = False 
+
+
+
+
+
