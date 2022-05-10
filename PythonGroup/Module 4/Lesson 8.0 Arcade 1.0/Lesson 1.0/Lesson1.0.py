@@ -2,7 +2,6 @@ from random import randint
 from sre_constants import JUMP 
 import pygame 
 from os import path
-import keyboard
 pygame.init() 
 
 C_GREEN = (32, 128, 32)
@@ -17,6 +16,7 @@ img_file_princess = path.dirname(__file__)+ '/princess.png'
 
 pygame.display.set_caption("ARCADE") 
 window = pygame.display.set_mode((800, 600))
+
 
 #backround settings
 back = pygame.transform.scale(pygame.image.load(img_file_back).convert(),(800,600))
@@ -47,6 +47,12 @@ class Hero(pygame.sprite.Sprite):
            self.y_speed = 0
     
    def update(self):
+
+       keystate = pygame.key.get_pressed()
+       if keystate[pygame.K_LEFT]:
+        self.x_speed = -0.5
+       if keystate[pygame.K_RIGHT]:
+        self.y_speed = 0.5
        
        self.rect.x += self.x_speed
        self.rect.y += self.y_speed
@@ -69,13 +75,7 @@ class Hero(pygame.sprite.Sprite):
                    self.rect.bottom = p.rect.top
                    self.stands_on = p
 
-       if keyboard.is_pressed('a'):
-           self.rect.x += 0.5
-       elif keyboard.is_pressed('d'):
-           self.rect.x -= 0.5
-        
-       if keyboard.is_pressed('space'):
-           self.jump()
+       
 
 class Enemy(pygame.sprite.Sprite): 
    def __init__(self, x=20, y=0, filename=img_file_enemy, width=100, height=100):
@@ -136,18 +136,15 @@ barriers.add(w)
 all_sprites.add(w)
 
 player = Hero(img_file_hero, 0, 0, 20, 12)
+all_sprites.add(player)
 
 clock = pygame.time.Clock()
 run = True
 while run:
-    clock.tick(30) 
+    clock.tick(144) 
     pygame.display.update() 
     all_sprites.draw(window) 
     for event in pygame.event.get(): 
         if event.type == pygame.QUIT: 
             run = False 
-
-
-
-
 
