@@ -52,7 +52,7 @@ class Hero(pygame.sprite.Sprite):
        if keystate[pygame.K_LEFT]:
         self.x_speed = -0.5
        if keystate[pygame.K_RIGHT]:
-        self.y_speed = 0.5
+        self.x_speed = 0.5
        
        self.rect.x += self.x_speed
        self.rect.y += self.y_speed
@@ -105,13 +105,9 @@ class FinalSprite(pygame.sprite.Sprite):
   
  def __init__(self, player_image, player_x, player_y, player_speed):
      
-     pygame.sprite.Sprite.__init__(self)
-
-     
+     pygame.sprite.Sprite.__init__(self)  
      self.image = pygame.transform.scale(pygame.image.load(player_image), (60, 120))
-     self.speed = player_speed
-
-     
+     self.speed = player_speed 
      self.rect = self.image.get_rect()
      self.rect.x = player_x
      self.rect.y = player_y
@@ -135,16 +131,17 @@ w = Wall(-200, 590, 1600, 20)
 barriers.add(w)
 all_sprites.add(w)
 
-player = Hero(img_file_hero, 0, 0, 20, 12)
+player = Hero(img_file_hero, 5, 5, 20, 12)
 all_sprites.add(player)
 
 clock = pygame.time.Clock()
-run = True
-while run:
-    clock.tick(144) 
-    pygame.display.update() 
-    all_sprites.draw(window) 
+run = True 
+while run: 
+    clock.tick(144)  
     for event in pygame.event.get(): 
         if event.type == pygame.QUIT: 
             run = False 
+    all_sprites.update()
+    all_sprites.draw(window) 
+    pygame.display.update() 
 
