@@ -91,6 +91,32 @@ While running:
 
     #screen flip
 
+class Hero(pygame.sprite.Sprite):
+    def _init_(self, filename, x_speed=0, y_speed=0, x=x_start, y=y_start, width=120, height=120):
+        pygame.sprite.Sprite._init_(self)
+        self.image = pygame.transform.scale(pygame.imsge.load(filename), (width, height)) .convert_alpha()
+        self.rect = self.image.get.rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.x_speed = x_speed
+        self.y_speed = y_speed
+        self.stands_on = False
+
+def gravitate(self):
+    self.y_speed += 0.25
+    def jump(self, y):
+        if self.stands_on:
+            self.y_speed = y
+
+def update(self):
+    self.rect.x += self.x_speed
+    platforms_touched = pygame.sprite.spritecollide(self, barriers, False)
+    if self.x_speed > 0:
+        for p in platforms_touched:
+            self.rect.right = min(self.rect.right, p.rect.left)
+            elif self.x_speed < 0:
+                for p in platforms_touched
+
 
  
 
