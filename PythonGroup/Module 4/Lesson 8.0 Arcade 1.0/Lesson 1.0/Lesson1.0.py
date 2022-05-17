@@ -23,53 +23,47 @@ back = pygame.transform.scale(pygame.image.load(img_file_back).convert(),(800,60
 
 
 class Hero(pygame.sprite.Sprite):
-   def __init__(self, filename, x_speed, y_speed, x=x_start, y=y_start):
-       pygame.sprite.Sprite.__init__(self)
-       
-       self.image = pygame.transform.scale(pygame.image.load(filename), (120, 120)).convert_alpha()
-                   
-      
-       self.rect = self.image.get_rect()
-       
-       self.rect.x = x
-       self.rect.y = y
-       
-       self.x_speed = x_speed
-       self.y_speed = y_speed
-       
-       self.stands_on = False
+    def __init__(self, filename, x_speed=0, y_speed=0, x=x_start, y=y_start, width=120, height=120):
+        pygame.sprite.Sprite.__init__(self) 
+        self.image = pygame.transform.scale(pygame.image.load(filename), (width, height)).convert_alpha()   
+        self.rect = self.image.get_rect() 
+        self.rect.x = x 
+        self.rect.y = y 
+        self.x_speed = x_speed
+        self.y_speed = y_speed 
+        self.stands_on = False  
 
-   def gravity(self):
-       self.y_speed += 0.25
+    def gravity(self):
+        self.y_speed += 0.25
     
-   def jump(self, y):
-       if self.stands_on:
-           self.y_speed = y
+    def jump(self, y):
+        if self.stands_on:
+            self.y_speed = y
     
-def update(self): 
-        self.rect.x += self.x_speed 
-        platforms_touched = pygame.sprite.spritecollide(self, barriers, False)
-        if self.x_speed > 0:  
-            for p in platforms_touched:
-                self.rect.right = min(self.rect.right, p.rect.left)  
-        elif self.x_speed < 0: 
-            for p in platforms_touched:
-                self.rect.left = max(self.rect.left, p.rect.right)  
-    
-        self.gravitate()
-        self.rect.y += self.y_speed 
-        platforms_touched = pygame.sprite.spritecollide(self, barriers, False)
-        if self.y_speed > 0:  
-            for p in platforms_touched:
-                self.y_speed = 0  
-                if p.rect.top < self.rect.bottom: 
-                    self.rect.bottom = p.rect.top
-                    self.stands_on = p
-        elif self.y_speed < 0: 
-            self.stands_on = False  
-            for p in platforms_touched:
-                self.y_speed = 0   
-                self.rect.top = max(self.rect.top, p.rect.bottom)  
+    def update(self): 
+            self.rect.x += self.x_speed 
+            platforms_touched = pygame.sprite.spritecollide(self, barriers, False)
+            if self.x_speed > 0:  
+                for p in platforms_touched:
+                    self.rect.right = min(self.rect.right, p.rect.left)  
+            elif self.x_speed < 0: 
+                for p in platforms_touched:
+                    self.rect.left = max(self.rect.left, p.rect.right)  
+        
+            self.gravity()
+            self.rect.y += self.y_speed 
+            platforms_touched = pygame.sprite.spritecollide(self, barriers, False)
+            if self.y_speed > 0:  
+                for p in platforms_touched:
+                    self.y_speed = 0  
+                    if p.rect.top < self.rect.bottom: 
+                        self.rect.bottom = p.rect.top
+                        self.stands_on = p
+            elif self.y_speed < 0: 
+                self.stands_on = False  
+                for p in platforms_touched:
+                    self.y_speed = 0   
+                    self.rect.top = max(self.rect.top, p.rect.bottom)  
 
        
 
@@ -127,29 +121,34 @@ w = Wall(-200, 590, 1600, 20)
 barriers.add(w)
 all_sprites.add(w)
 
-player = Hero(img_file_hero, 5, 5, 20, 12)
+player = Hero(img_file_hero)
 all_sprites.add(player)
 
 clock = pygame.time.Clock()
 run = True 
 while run: 
-    clock.tick(144)  
+    clock.tick(40)   
     for event in pygame.event.get(): 
         if event.type == pygame.QUIT: 
-            run = False 
-
+            run = False  
         # character movement
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                player.x_speed = -5
-            if event.key == pygame.K_RIGHT: 
-                player.x_speed = 5
-            if event.key == pygame.K_UP:
-                player.jump(-5)
+        elif event.type == pygame.KEYDOWN: 
+                if event.key == pygame.K_LEFT:
+                    player.x_speed = -5 
+                elif event.key == pygame.K_RIGHT:
+                    player.x_speed = 5 
+                elif event.key == pygame.K_UP:
+                    player.jump(-7)
 
-
-
+                elif event.type == pygame.KEYUP: 
+                    if event.key == pygame.K_LEFT:
+                        player.x_speed = 0
+                    elif event.key == pygame.K_RIGHT:
+                        player.x_speed = 0  
     all_sprites.update()
+    player.update()
     all_sprites.draw(window) 
-    pygame.display.update() 
+    pygame.display.update()  
+    print(player.x_speed,player.y_speed)
+
 
