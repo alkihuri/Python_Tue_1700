@@ -42,38 +42,34 @@ class Hero(pygame.sprite.Sprite):
    def gravity(self):
        self.y_speed += 0.25
     
-   def jump(self):
+   def jump(self, y):
        if self.stands_on:
-           self.y_speed = 0
+           self.y_speed = y
     
-   def update(self):
-
-       keystate = pygame.key.get_pressed()
-       if keystate[pygame.K_LEFT]:
-        self.x_speed = -0.5
-       if keystate[pygame.K_RIGHT]:
-        self.x_speed = 0.5
-       
-       self.rect.x += self.x_speed
-       self.rect.y += self.y_speed
-       
-       platforms_touched = pygame.sprite.spritecollide(self, barriers, False)
-       if self.x_speed > 0:
-           for p in platforms_touched:
-               self.rect.right = min(self.rect.right, p.rect.left)
-       elif self.x_speed < 0: 
-           for p in platforms_touched:
-               self.rect.left = max(self.rect.left, p.rect.right)
-        
-       self.gravity()
-
-       if self.y_speed > 0: 
-           for p in platforms_touched:
-               self.y_speed = 0
-
-               if p.rect.top < self.rect.bottom:
-                   self.rect.bottom = p.rect.top
-                   self.stands_on = p
+def update(self): 
+        self.rect.x += self.x_speed 
+        platforms_touched = pygame.sprite.spritecollide(self, barriers, False)
+        if self.x_speed > 0:  
+            for p in platforms_touched:
+                self.rect.right = min(self.rect.right, p.rect.left)  
+        elif self.x_speed < 0: 
+            for p in platforms_touched:
+                self.rect.left = max(self.rect.left, p.rect.right)  
+    
+        self.gravitate()
+        self.rect.y += self.y_speed 
+        platforms_touched = pygame.sprite.spritecollide(self, barriers, False)
+        if self.y_speed > 0:  
+            for p in platforms_touched:
+                self.y_speed = 0  
+                if p.rect.top < self.rect.bottom: 
+                    self.rect.bottom = p.rect.top
+                    self.stands_on = p
+        elif self.y_speed < 0: 
+            self.stands_on = False  
+            for p in platforms_touched:
+                self.y_speed = 0   
+                self.rect.top = max(self.rect.top, p.rect.bottom)  
 
        
 
@@ -141,6 +137,18 @@ while run:
     for event in pygame.event.get(): 
         if event.type == pygame.QUIT: 
             run = False 
+
+        # character movement
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                player.x_speed = -5
+            if event.key == pygame.K_RIGHT: 
+                player.x_speed = 5
+            if event.key == pygame.K_UP:
+                player.jump(-5)
+
+
+
     all_sprites.update()
     all_sprites.draw(window) 
     pygame.display.update() 
