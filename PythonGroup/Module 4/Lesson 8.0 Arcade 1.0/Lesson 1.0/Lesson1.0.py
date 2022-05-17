@@ -136,19 +136,19 @@ while run:
                 if event.key == pygame.K_LEFT:
                     player.x_speed = -5 
                 elif event.key == pygame.K_RIGHT:
-                    player.x_speed = 5 
+                    player.x_speed = 5
+                    
                 elif event.key == pygame.K_UP:
                     player.jump(-7)
 
-                elif event.type == pygame.KEYUP: 
-                    if event.key == pygame.K_LEFT:
-                        player.x_speed = 0
-                    elif event.key == pygame.K_RIGHT:
-                        player.x_speed = 0  
+        elif event.type == pygame.KEYUP: 
+            if event.key == pygame.K_LEFT:
+                player.x_speed = 0
+            elif event.key == pygame.K_RIGHT:
+                player.x_speed = 0  
     all_sprites.update()
     player.update()
     all_sprites.draw(window) 
     pygame.display.update()  
-    print(player.x_speed,player.y_speed)
 
 
