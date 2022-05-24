@@ -4,7 +4,7 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication,QMainWindow
 import sys
 
-class Mywindow(QMainWindow):
+class MyWindow(QMainWindow):
     def __init__(self):
         super(MyWindow,self).__init__()
         self.counter = 0
@@ -15,17 +15,17 @@ class Mywindow(QMainWindow):
 
     def CreateLabel(self,text,x=50,y=50):
         self.newLabel = QtWidgets.QLabel(self)
-        self.newLabel.move(x,y)
-        self.newLabel.(x=25,y=25)
+        self.newLabel.setText("0")
+        self.newLabel.move(25,25)
 
     def CreateButton(self,text,x,y,fun):
         self.newButton = QtWidgets.QPushButton(self)
-        self.newButton.(Button)
-        self.newButton.(x = 25,y = 25)
+        self.newButton.setText("Button")
+        self.newButton.move(25,125)
         self.newButton.clicked.connect(self.CounterFunc)
 
     def CounterFunc(self):
-        self.counter.+=1
+        self.counter +=1
         self.newLabel.setText(str(self.counter))
 
 app = QApplication(sys.argv)
