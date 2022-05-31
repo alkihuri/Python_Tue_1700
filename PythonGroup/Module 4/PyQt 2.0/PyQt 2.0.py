@@ -50,9 +50,9 @@ class MyWindow(QMainWindow):
          self.a =  float(self.aField.text())
       except:
          self.a = 0
-      *if everything with input data is ok*: # here should be try
+      try:
          self.b =  float(self.bField.text())
-      *else*:                                # here should be except
+      except:
          self.b = 0
 
    def UpdateOutput(self):   
