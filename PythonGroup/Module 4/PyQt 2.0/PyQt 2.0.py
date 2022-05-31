@@ -8,7 +8,7 @@ import sys
 class MyWindow(QMainWindow):
    def __init__ (self):
       super(MyWindow,self).__init__()                                         # innit super class
-      self.setGeometry(200,200,300,300)                                       # size of window
+      self.setGeometry(400,200,400,300)                                       # size of window
       self.setWindowTitle("Calculator")
       # input fields
       self.aField         = self.CreateInputField("a:",100,25)
@@ -20,6 +20,12 @@ class MyWindow(QMainWindow):
       self.multiplyBtn    = self.CreateButton("*",100,200,self.Multiply)
       self.divideBtn      = self.CreateButton("/",100,225,self.Divide)
       self.powerBtn      = self.CreateButton("**",100,250,self.Power)
+
+   
+      self.OneBtn      = self.CreateButton("1",200,250,self.OneBtnFunc)
+      self.TwoBtn      = self.CreateButton("2",200,225,self.TwoBtnFunc)
+
+
       # resetting of start values
       self.a = 0                                                             
       self.b = 0
@@ -78,10 +84,22 @@ class MyWindow(QMainWindow):
       self.result =  self.a / self.b
       self.UpdateOutput()
 
-    def Power(self):
+   def Power(self):
       self.UpdateInput()
       self.result =  self.a ** self.b
       self.UpdateOutput()
+   
+   def OneBtnFunc(self): 
+      self.UpdateInput()
+      prevValue = int(self.a) 
+      newValue = str(prevValue) + str(1)
+      self.aField.setText(str(newValue))
+
+   def TwoBtnFunc(self): 
+         self.UpdateInput()
+         prevValue = int(self.a) 
+         newValue = str(prevValue) + str(2)
+         self.aField.setText(str(newValue))
 
 app = QApplication(sys.argv)
 window  = MyWindow()
