@@ -115,8 +115,51 @@ def update(self):
         for p in platforms_touched:
             self.rect.right = min(self.rect.right, p.rect.left)
             elif self.x_speed < 0:
-                for p in platforms_touched
+                for p in platforms_touched:
+                    self.rect.left = max(self.rect.left, p.rect.right)
+                    self.gravitate()
+                    self.rect.y += self.y_speed
+                    platforms_touched = pygame.sprite.spritecollide(self, barriers, False)
+                    if self.y_speed > 0:
+                        for p in platforms_touched:
+                            self.y_speed = 0
+                            if p.rect.top < self.rect.bottom:
+                                self.rect.bottom = p.rect.top
+                                self.stands_on = p
+                            elif self.y_speed < 0:
+                                self.stands_on = False
+                                for p in platforms_touched:
+                                    self.y_speed = 0
+                                    self.rect.top = max(self.rect.top, p.rect.bottom)
 
+class Enenmy(pygame.sprite.Sprite):
+    def_init_(self, x=20, y=0, filename=img_file_enemy, width=100, height=100):
+    pygame.sprite.Sprite_init_(self)
+    self.image = pygame.transform.scale(pygame.image.load(filename), (width, height)) .convert_alpha()
+    self.rect = self.image.get_rect()
+    self.rect.x = x
+    self.rect.y = y
+    def update(self):
+        self.rect.x += randint(-5, 5)
+        self.rect.y += randint(-5, 5)
+
+        class Wall(pygame.sprite.Sprite)
+        def_init_(self, x=20, y=0, height=120, width=120, colour=C_BLUE):
+        pygame.sprite.Sprite_init_(self)
+        self.image = pygame.surface([width, height])
+        self.image.fill(color)
+        self.rect = self.image.get_rect()
+            self.rect.x = x
+            self.rect.y = y
+
+class FinalSprite(pygame.sprite.Sprite):
+    def_init_(self, player_image, player_x, player_y, player_speed):
+    pygame.sprite.Sprite._init_(self)
+    self.image = pygame.transform.scale(pygame.image.load(player_image), (60, 120))
+    self.speed = player_speed
+    self.rect = self.image.get_rect()
+    self.rect.x = player_x
+    self.rect.y = player_y
 
  
 
@@ -126,15 +169,6 @@ def update(self):
 
 
 
-all_sprites = pygame.sprite.Group()
-mobs = pygame.sprite.Group()
-bullets = pygame.sprite.Group()
-player = Player()
-all_sprites.add(player)
 
- for i in range(2):\
-     m = Mob()
-     all_sprites.add(m)
-     mobs.add(m)
 
  
