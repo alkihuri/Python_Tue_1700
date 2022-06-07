@@ -71,3 +71,12 @@ class Controller():
            encryptedCahracter = (eachCharacterInt - self.key) % 255 
            ecnrypted -= chr(encryptedCahracter)
         return ecnrypted
+
+        app = QApplication(sys.argv)
+        key = 5
+        myModel = Model(key)
+        myController = Controller(myModel)
+        myView = View(myController)
+        myView.show()
+        sys.exit(app.exec_())
+
