@@ -27,13 +27,15 @@ class ReaderView(QMainWindow):
         return combo
     
     def WriteShake(self):
-        ShakePoem = ["Let me not to the marriage of true minds \n"
-        ,"Admit impediments. Love is not love \n"
-        ,"Which alters when it alteration finds, \n"
-        ,"Or bends with the remover to remove."]
+        poem = ["Let me not to the marriage of true minds\n"
+        ,"Admit impediments. Love is not love\n"
+        ,"Which alters when it alteration finds,\n"
+        ,"Or bends with the remover to remove.\n"]
 
-        self.poemField.resize(500, 25 * len(ShakePoem))
-        self.poemField.setText(''.join(ShakePoem))
+        currentFilePath     = os.path.dirname(__file__)      
+        newpoemFilePath = currentFilePath + "/WILLIAM SHAKESPEARE.txt"
+        f = open(newpoemFilePath,"w")
+        f.writelines(poem) 
 
     def WriteKip(self):
         KipPoem = ["If you can keep your head when all about you \n",
