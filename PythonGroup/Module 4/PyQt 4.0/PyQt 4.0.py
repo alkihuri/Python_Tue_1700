@@ -9,7 +9,7 @@ import sys
 import os 
 
 class ReaderView(QMainWindow):
-    def  init  (self,myViewModel):
+    def  __init__  (self,myViewModel):  # __init__ not just  init
         super(ReaderView,self).__init__()
         self.myViewModel = myViewModel
         self.setGeometry(0,0,600,600)
@@ -18,15 +18,15 @@ class ReaderView(QMainWindow):
         self.poemSelectField.addItems(["WILLIAM SHAKESPEAR","RUDYARD KIPLING"])
         sdlf.poemField = self.CreateLabel("POEM NOT LOADED",150,100)
 
-def RequestPoem(self):
-    self.poemString = self.myViewModel.SetPath(self.poemSelectField.currentText())
-    self.UpdateUI()
+    def RequestPoem(self):
+        self.poemString = self.myViewModel.SetPath(self.poemSelectField.currentText())
+        self.UpdateUI()
 
-def CreateLabel(self,text,x,y):
-    newLabel = QtWidgets.QLabel(self)
-    newLabel.setText(text)
-    newLabel.move(x,y)
-    return newLabel
+    def CreateLabel(self,text,x,y):
+        newLabel = QtWidgets.QLabel(self)
+        newLabel.setText(text)
+        newLabel.move(x,y)
+        return newLabel
 
-def 
-
+    def 
+# 4 spaces for each function inside class
